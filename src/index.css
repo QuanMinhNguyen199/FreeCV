@@ -1,0 +1,596 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+:root {
+  --primary: #4F46E5; 
+  --primary-hover: #4338CA;
+  --bg-color: #f3f4f6; 
+  --panel-bg: #ffffff;
+  --text-main: #111827; 
+  --text-muted: #6b7280; 
+  --border-color: #e5e7eb; 
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius: 12px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* TopCV Maroon Theme */
+  --cv-left-bg: #5c3735;
+  --cv-left-text: #ffffff;
+  --cv-pill-light: #8e5252;
+  --cv-pill-dark: #8e5252;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Base App Layout */
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.editor-sidebar {
+  width: 45%;
+  min-width: 450px;
+  background-color: var(--panel-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+}
+
+.editor-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editor-header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.editor-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-section {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.form-control {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #f9fafb;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-primary { background-color: var(--primary); color: white; }
+.btn-secondary { background-color: #f3f4f6; color: var(--text-main); border: 1px solid var(--border-color); }
+.btn-danger { background-color: #fee2e2; color: #dc2626; }
+.btn-icon { padding: 0.5rem; border-radius: 6px; }
+
+.item-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: white;
+  position: relative;
+}
+
+.item-actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.preview-area {
+  flex: 1;
+  background-color: #e5e7eb;
+  padding: 2rem;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+
+/* Print Styles - Crucial for PDF Export without Watermark */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  body, .app-container {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .app-container, .preview-area {
+    display: block;
+    height: auto;
+    overflow: visible;
+    background: transparent;
+    padding: 0;
+  }
+  .cv-document, .cv-document * {
+    visibility: visible;
+  }
+  .cv-document {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
+    height: 297mm;
+    box-shadow: none;
+    margin: 0;
+  }
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+
+/* =========================================
+   TOPCV TEMPLATE STYLE (MAROON & WHITE)
+   ========================================= */
+
+.cv-document.topcv-style {
+  width: 210mm;
+  height: 297mm;
+  background: white;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: row;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+.topcv-style .cv-left {
+  width: 35%;
+  background-color: var(--cv-left-bg);
+  color: var(--cv-left-text);
+  padding: 15mm 10mm 15mm 10mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.topcv-style .cv-right {
+  width: 65%;
+  background-color: #ffffff;
+  padding: 15mm 15mm 15mm 15mm;
+  display: flex;
+  flex-direction: column;
+  color: #111827;
+}
+
+/* =========================================
+   NAVY TEMPLATE STYLE (MODERN BLUE)
+   ========================================= */
+
+.cv-document.navy-style {
+  width: 210mm;
+  height: 297mm;
+  background: white;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: row;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+.navy-style .cv-left {
+  width: 35%;
+  background-color: #0f172a; /* Slate 900 */
+  color: #f8fafc; /* Slate 50 */
+  padding: 15mm 10mm 15mm 10mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.navy-style .cv-right {
+  width: 65%;
+  background-color: #f8fafc;
+  padding: 15mm 15mm 15mm 15mm;
+  display: flex;
+  flex-direction: column;
+  color: #0f172a;
+}
+
+.navy-style .cv-name {
+  color: #38bdf8; /* Sky 400 */
+  font-size: 18pt; /* Reduced to prevent wrapping */
+}
+.navy-style .cv-title { color: #94a3b8; }
+.navy-style .pill-light { background-color: #38bdf8; color: #0f172a; }
+.navy-style .pill-dark { background-color: #0ea5e9; color: white; }
+.navy-style .section-line { background-color: #38bdf8; }
+.navy-style .timeline-title { color: #0369a1; }
+.navy-style .cv-avatar { border: 4px solid #38bdf8; }
+
+/* =========================================
+   MINIMALIST STANDARD (1 COLUMN, SERIF)
+   ========================================= */
+
+.cv-document.minimalist-style {
+  width: 210mm;
+  height: 297mm;
+  background: white;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Lora', 'Times New Roman', Times, serif;
+  overflow: hidden;
+  padding: 25mm 20mm;
+  color: #000000;
+}
+
+.minimalist-style .cv-left {
+  width: 100%;
+  background: transparent;
+  color: #000;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 2px solid #000;
+  margin-bottom: 20px;
+}
+
+.minimalist-style .cv-right {
+  width: 100%;
+  background: transparent;
+  padding: 0;
+  color: #000;
+}
+
+.minimalist-style .cv-avatar-container {
+  display: none; /* Usually no avatar in classic minimalist CVs */
+}
+
+.minimalist-style .cv-name-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.minimalist-style .cv-name {
+  font-size: 24pt;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #000;
+}
+
+.minimalist-style .cv-title {
+  font-size: 14pt;
+  color: #333;
+}
+
+.minimalist-style .cv-contact-info {
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.minimalist-style .contact-icon { display: none; }
+.minimalist-style .contact-item span { border-right: 1px solid #ccc; padding-right: 15px; }
+.minimalist-style .contact-item:last-child span { border-right: none; }
+
+.minimalist-style .section-title-wrapper {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 3px;
+}
+
+.minimalist-style .section-pill {
+  background: transparent;
+  color: #000;
+  padding: 0;
+  border-radius: 0;
+  font-size: 14pt;
+  text-transform: uppercase;
+}
+
+.minimalist-style .section-line { display: none; }
+.minimalist-style .cv-section-left, .minimalist-style .cv-section-right { margin-bottom: 15px; }
+.minimalist-style .timeline-header { margin-bottom: 2px; }
+.minimalist-style .timeline-subtitle { font-style: italic; color: #000; margin-bottom: 3px; }
+.minimalist-style .timeline-title { color: #000; font-size: 12pt; }
+.minimalist-style .timeline-date { font-style: italic; }
+
+/* =========================================
+   SHARED STYLES
+   ========================================= */
+/* Avatar */
+.cv-avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.cv-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #734848; /* Slight border blending with bg */
+}
+
+.cv-avatar-placeholder {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 4px solid #734848;
+}
+
+/* Name and Title */
+.cv-name-title {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.cv-name {
+  font-size: 17pt; /* Reduced to prevent wrapping */
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.cv-title {
+  font-size: 10.5pt;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.85); /* Slightly muted for better hierarchy */
+}
+
+/* Contact Info */
+.cv-contact-info {
+  margin-bottom: 25px;
+  font-size: 9.5pt;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-icon {
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+/* Section Headings */
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px; /* Increased from 10px for better breathing room */
+  position: relative;
+}
+
+.section-pill {
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 11pt;
+  font-weight: 700;
+  color: #ffffff;
+  z-index: 2;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.pill-light {
+  background-color: var(--cv-pill-light);
+}
+
+.pill-dark {
+  background-color: var(--cv-pill-dark);
+}
+
+.section-line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: var(--cv-pill-light);
+  margin-left: -10px;
+  z-index: 1;
+}
+
+/* Left Sections */
+.cv-section-left {
+  margin-bottom: 15px;
+}
+
+.skills-list {
+  font-size: 9.5pt;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Increased gap */
+}
+
+.skill-item strong {
+  font-weight: 600;
+  display: block; /* Make skill name stand out on its own line */
+  margin-bottom: 2px;
+}
+
+.hobbies-list {
+  font-size: 9.5pt;
+  line-height: 1.8;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Right Sections */
+.cv-section-right {
+  margin-bottom: 15px;
+}
+
+.cv-summary-text {
+  font-size: 10pt;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* Timeline (Experience, Edu, Projects) */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Increased gap between items */
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Better alignment if title wraps */
+  margin-bottom: 4px;
+  gap: 10px; /* Gap between title and date */
+}
+
+.timeline-title {
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.3;
+  flex: 1; /* Allow title to wrap */
+}
+
+.timeline-date {
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap; /* Prevent date from wrapping */
+  flex-shrink: 0;
+}
+
+.timeline-subtitle {
+  font-size: 10pt;
+  color: #4b5563; /* Slightly lighter for contrast */
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.timeline-content {
+  font-size: 9.5pt;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.timeline-content p {
+  margin-bottom: 6px; /* More space between paragraphs */
+}
+
+.timeline-content p:last-child {
+  margin-bottom: 0;
+}
